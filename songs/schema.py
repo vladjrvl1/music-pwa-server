@@ -1,6 +1,7 @@
 import graphene
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.urls import reverse
 from graphene_django import DjangoObjectType
 from graphene_file_upload.scalars import Upload
 
@@ -16,7 +17,7 @@ class SongType(DjangoObjectType):
 
     def resolve_audio_url(self, info):
         if self.audio:
-            return info.context.build_absolute_uri(self.audio.url)
+            return info.context.build_absolute_uri(reverse('stream_audio', args=[self.id]))
         return None
 
     def resolve_image_url(self, info):
